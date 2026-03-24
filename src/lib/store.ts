@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { generateText } from "./words";
+import { generateText, PracticeMode } from "./words";
 
 export type TimerMode = 15 | 30 | 60 | 120;
 
@@ -37,10 +37,18 @@ interface TypingState {
   history: TestResult[];
   personalBest: number;
 
+  // Practice mode
+  practiceMode: PracticeMode;
+
+  // Sound effects
+  soundEnabled: boolean;
+
   // Theme
   darkMode: boolean;
 
   // Actions
+  setPracticeMode: (mode: PracticeMode) => void;
+  toggleSound: () => void;
   setTimerMode: (mode: TimerMode) => void;
   startTest: () => void;
   handleKeyPress: (char: string) => void;
@@ -93,13 +101,39 @@ export const useTypingStore = create<TypingState>((set, get) => ({
   errorKeys: {},
   history: [],
   personalBest: 0,
+  practiceMode: "standard",
+  soundEnabled: false,
   darkMode: true,
 
+  setPracticeMode: (mode) => {
+    const { timerMode } = get();
+    set({
+      practiceMode: mode,
+      text: generateText(getWordCount(timerMode), mode),
+      typed: "",
+      isRunning: false,
+      isFinished: false,
+      startTime: null,
+      correctChars: 0,
+      wrongChars: 0,
+      wpm: 0,
+      accuracy: 100,
+      errorKeys: {},
+    });
+  },
+
+  toggleSound: () => {
+    const newVal = !get().soundEnabled;
+    saveToStorage("typetest-sound", newVal);
+    set({ soundEnabled: newVal });
+  },
+
   setTimerMode: (mode) => {
+    const { practiceMode } = get();
     set({
       timerMode: mode,
       timeLeft: mode,
-      text: generateText(getWordCount(mode)),
+      text: generateText(getWordCount(mode), practiceMode),
       typed: "",
       isRunning: false,
       isFinished: false,
@@ -113,7 +147,7 @@ export const useTypingStore = create<TypingState>((set, get) => ({
   },
 
   startTest: () => {
-    const { timerMode } = get();
+    const { timerMode, practiceMode } = get();
     set({
       isRunning: true,
       startTime: Date.now(),
@@ -125,7 +159,7 @@ export const useTypingStore = create<TypingState>((set, get) => ({
       accuracy: 100,
       errorKeys: {},
       isFinished: false,
-      text: generateText(getWordCount(timerMode)),
+      text: generateText(getWordCount(timerMode), practiceMode),
     });
   },
 
@@ -223,9 +257,9 @@ export const useTypingStore = create<TypingState>((set, get) => ({
   },
 
   resetTest: () => {
-    const { timerMode } = get();
+    const { timerMode, practiceMode } = get();
     set({
-      text: generateText(getWordCount(timerMode)),
+      text: generateText(getWordCount(timerMode), practiceMode),
       typed: "",
       isRunning: false,
       isFinished: false,
@@ -258,7 +292,8 @@ export const useTypingStore = create<TypingState>((set, get) => ({
     const history = loadFromStorage<TestResult[]>("typetest-history", []);
     const personalBest = loadFromStorage<number>("typetest-best", 0);
     const darkMode = loadFromStorage<boolean>("typetest-darkmode", true);
-    set({ history, personalBest, darkMode });
+    const soundEnabled = loadFromStorage<boolean>("typetest-sound", false);
+    set({ history, personalBest, darkMode, soundEnabled });
   },
 
   toggleDarkMode: () => {

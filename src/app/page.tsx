@@ -8,6 +8,7 @@ import Stats from "@/components/Stats";
 import TypingArea from "@/components/TypingArea";
 import Results from "@/components/Results";
 import History from "@/components/History";
+import PracticeModeSelector from "@/components/PracticeModeSelector";
 
 export default function Home() {
   const {
@@ -43,6 +44,7 @@ export default function Home() {
 
         {!isFinished ? (
           <div className="space-y-8 pt-8">
+            <PracticeModeSelector />
             <TimerSelector />
             <Stats />
             <TypingArea />

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useTypingStore } from "@/lib/store";
 import { RotateCcw, Trophy } from "lucide-react";
 import KeyboardHeatmap from "./KeyboardHeatmap";
+import ShareCard from "./ShareCard";
 
 export default function Results() {
   const { wpm, accuracy, correctChars, wrongChars, timerMode, personalBest, resetTest, isFinished, errorKeys } =
@@ -72,6 +73,9 @@ export default function Results() {
           <KeyboardHeatmap errorKeys={errorKeys} />
         </div>
       )}
+
+      {/* Share Card */}
+      <ShareCard />
 
       {/* Restart */}
       <div className="flex justify-center">

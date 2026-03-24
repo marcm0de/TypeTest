@@ -1,10 +1,10 @@
 "use client";
 
 import { useTypingStore } from "@/lib/store";
-import { Sun, Moon, RotateCcw } from "lucide-react";
+import { Sun, Moon, RotateCcw, Volume2, VolumeX } from "lucide-react";
 
 export default function Header() {
-  const { darkMode, toggleDarkMode, resetTest, isRunning } = useTypingStore();
+  const { darkMode, toggleDarkMode, resetTest, isRunning, soundEnabled, toggleSound } = useTypingStore();
 
   return (
     <header className="flex items-center justify-between py-6">
@@ -23,6 +23,13 @@ export default function Header() {
             <RotateCcw size={16} />
           </button>
         )}
+        <button
+          onClick={toggleSound}
+          className="p-2 rounded-lg hover:bg-white/10 transition-colors opacity-40 hover:opacity-80 cursor-pointer"
+          title={soundEnabled ? "Mute key sounds" : "Enable key sounds"}
+        >
+          {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+        </button>
         <button
           onClick={toggleDarkMode}
           className="p-2 rounded-lg hover:bg-white/10 transition-colors opacity-40 hover:opacity-80 cursor-pointer"
