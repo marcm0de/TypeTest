@@ -119,10 +119,20 @@ export default function ShareCard() {
     }
   };
 
+  const shareText = () => {
+    const text = `⌨️ TypeTest Results\n🏎️ ${wpm} WPM | 🎯 ${accuracy}% accuracy\n✅ ${correctChars} correct | ❌ ${wrongChars} errors\n⏱️ ${timerMode}s | Mode: ${practiceMode}\n\nTry it yourself!`;
+    navigator.clipboard.writeText(text);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <div className="space-y-3">
       <canvas ref={canvasRef} className="hidden" />
-      <div className="flex items-center justify-center gap-2">
+      <h3 className="text-sm opacity-50 uppercase tracking-wider text-center">
+        Share Results
+      </h3>
+      <div className="flex items-center justify-center gap-2 flex-wrap">
         <button
           onClick={downloadCard}
           className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-xs font-mono"
@@ -136,6 +146,13 @@ export default function ShareCard() {
         >
           {copied ? <Check size={14} className="text-green-400" /> : <Copy size={14} />}
           {copied ? "Copied!" : "Copy Image"}
+        </button>
+        <button
+          onClick={shareText}
+          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 transition-all text-xs font-mono"
+        >
+          <Share2 size={14} />
+          Copy Text
         </button>
       </div>
     </div>

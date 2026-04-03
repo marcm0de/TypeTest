@@ -5,6 +5,7 @@ import { useTypingStore } from "@/lib/store";
 import { RotateCcw, Trophy } from "lucide-react";
 import KeyboardHeatmap from "./KeyboardHeatmap";
 import ShareCard from "./ShareCard";
+import Leaderboard from "./Leaderboard";
 
 export default function Results() {
   const { wpm, accuracy, correctChars, wrongChars, timerMode, personalBest, resetTest, isFinished, errorKeys } =
@@ -76,6 +77,9 @@ export default function Results() {
 
       {/* Share Card */}
       <ShareCard />
+
+      {/* Leaderboard */}
+      <Leaderboard userWpm={wpm} />
 
       {/* Restart */}
       <div className="flex justify-center">
