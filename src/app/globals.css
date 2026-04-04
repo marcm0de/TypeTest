@@ -19,8 +19,17 @@ body {
   50% { opacity: 0; }
 }
 
+@keyframes cursor-pulse {
+  0%, 100% { opacity: 1; transform: scaleY(1); }
+  50% { opacity: 0.3; transform: scaleY(0.95); }
+}
+
 .animate-blink {
   animation: blink 1s ease-in-out infinite;
+}
+
+.animate-cursor {
+  animation: cursor-pulse 1.1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
 /* Dark mode defaults */

@@ -51,8 +51,8 @@ export default function TypingArea() {
   return (
     <div
       ref={containerRef}
-      className="relative max-w-3xl mx-auto p-6 rounded-xl font-mono text-2xl leading-relaxed select-none focus:outline-none"
-      style={{ letterSpacing: "0.05em" }}
+      className="relative max-w-3xl mx-auto p-8 rounded-2xl font-mono text-2xl leading-[1.8] select-none focus:outline-none bg-white/[0.02] ring-1 ring-white/[0.06]"
+      style={{ letterSpacing: "0.08em", fontFeatureSettings: "'liga' 1, 'calt' 1" }}
       tabIndex={0}
     >
       {!isRunning && !isFinished && typed.length === 0 && (
@@ -80,7 +80,7 @@ export default function TypingArea() {
               data-cursor={isCurrent ? "" : undefined}
             >
               {isCurrent && (
-                <span className="absolute -left-[1px] top-[2px] bottom-[2px] w-[2px] bg-yellow-400 animate-blink" />
+                <span className="absolute -left-[1px] top-[2px] bottom-[2px] w-[2.5px] bg-yellow-400 rounded-full animate-cursor shadow-[0_0_8px_rgba(250,204,21,0.4)]" />
               )}
               {char === " " ? "\u00A0" : char}
             </span>
